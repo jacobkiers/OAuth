@@ -1,11 +1,16 @@
 {
-    "name": "garyjones/oauth",
-	"description": "Based on Andy Smith's basic PHP library for OAuth 1.0a",
+    "name": "jacobkiers/oauth",
+    "description": "Based on Andy Smith's basic PHP library for OAuth 1.0a",
     "type": "library",
-	"keywords": ["oauth"],
-	"homepage": "https://github.com/GaryJones/OAuth",
-	"license": "MIT",
+    "keywords": ["oauth"],
+    "homepage": "https://github.com/jacobkiers/OAuth",
+    "license": "MIT",
     "authors": [
+        {
+            "name": "Jacob Kiers",
+            "email": "jacob@alphacomm.nl",
+            "role": "developer"
+        },
         {
             "name": "Gary Jones",
             "email": "gary@garyjones.co.uk",
@@ -23,11 +28,11 @@
     "require": {
         "php": ">=5.3.0"
     },
-	"require-dev": {
-		"squizlabs/php_codesniffer": "*",
-		"phpunit/phpunit": "3.7.*@stable",
-		"mockery/mockery": "*"
-	},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*",
+        "phpunit/phpunit": "3.7.*@stable",
+        "mockery/mockery": "*"
+    },
     "autoload": {
         "psr-0": {
             "GaryJones\\OAuth": "src/"

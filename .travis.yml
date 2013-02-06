@@ -7,7 +7,3 @@ before_script:
  - composer selfupdate --quiet
  - composer install --dev
  - vendor/phpunit/phpunit/composer/bin/phpunit
-
-notifications:
-  irc: "irc.freenode.org#garyj"
-  email: false
