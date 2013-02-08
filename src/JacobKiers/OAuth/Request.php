@@ -79,7 +79,7 @@ class Request implements RequestInterface
      * @param string $http_url    Request URL.
      * @param array  $parameters  HTTP parameters.
      *
-     * @return JacobKiers\OAuth\Request
+     * @return JacobKiers\OAuth\RequestInterface
      */
     public static function fromRequest($http_method = null, $http_url = null, $parameters = null)
     {
@@ -137,7 +137,7 @@ class Request implements RequestInterface
      * @param string                 $http_url
      * @param array                  $parameters
      *
-     * @return JacobKiers\OAuth\Request
+     * @return JacobKiers\OAuth\RequestInterface
      */
     public static function fromClientAndToken(
         Client $client,

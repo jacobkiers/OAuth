@@ -46,13 +46,13 @@ class HmacSha1 extends SignatureMethod
      * Please note that the second encoding MUST NOT happen in the SignatureMethod, as
      * OAuthRequest handles this!
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      * @param JacobKiers\OAuth\Client  $client
      * @param JacobKiers\OAuth\Token   $token
      *
      * @return string
      */
-    public function buildSignature(Request $request, Client $client, Token $token = null)
+    public function buildSignature(RequestInterface $request, Client $client, Token $token = null)
     {
         $base_string = $request->getOAuthSignatureBaseString();
         $key = $this->getSignatureKey($client, $token);

@@ -36,13 +36,13 @@ abstract class SignatureMethod
      * the encoding is handled in OAuthRequest when the final
      * request is serialized.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      * @param JacobKiers\OAuth\Client  $client
      * @param JacobKiers\OAuth\Token   $token
      *
      * @return string
      */
-    abstract public function buildSignature(Request $request, Client $client, Token $token = null);
+    abstract public function buildSignature(RequestInterface $request, Client $client, Token $token = null);
 
     /**
      * Get the signature key, made up of client and optionally token shared secrets.
@@ -66,14 +66,14 @@ abstract class SignatureMethod
     /**
      * Verifies that a given signature is correct.
      *
-     * @param JacobKiers\OAuth\Request  $request
+     * @param JacobKiers\OAuth\RequestInterface  $request
      * @param JacobKiers\OAuth\Consumer $client
      * @param JacobKiers\OAuth\Token    $token
      * @param string                   $signature
      *
      * @return bool
      */
-    public function checkSignature(Request $request, Client $client, Token $token, $signature)
+    public function checkSignature(RequestInterface $request, Client $client, Token $token, $signature)
     {
         $built = $this->buildSignature($request, $client, $token);
         return $built == $signature;

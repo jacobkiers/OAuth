@@ -77,7 +77,7 @@ class Server
      *
      * Returns the request token on success
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      *
      * @return JacobKiers\OAuth\Token
      */
@@ -103,7 +103,7 @@ class Server
      *
      * Returns the access token on success.
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      *
      * @return JacobKiers\OAuth\Token
      */
@@ -127,7 +127,7 @@ class Server
     /**
      * Verify an api call, checks all the parameters.
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      *
      * @return array Client and Token
      */
@@ -145,7 +145,7 @@ class Server
     /**
      * Check that version is 1.0.
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      *
      * @return string
      *
@@ -168,7 +168,7 @@ class Server
     /**
      * Get the signature method name, and if it is supported.
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      *
      * @return string Signature method name.
      *
@@ -196,7 +196,7 @@ class Server
     /**
      * Try to find the client for the provided request's client key.
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      *
      * @return JacobKiers\OAuth\Client
      *
@@ -221,7 +221,7 @@ class Server
     /**
      * Try to find the token for the provided request's token key.
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      * @param JacobKiers\OAuth\Client  $client
      * @param string                   $token_type
      *
@@ -245,7 +245,7 @@ class Server
      *
      * Should determine the signature method appropriately
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
+     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
      * @param JacobKiers\OAuth\Client  $client
      * @param JacobKiers\OAuth\Token   $token
      *

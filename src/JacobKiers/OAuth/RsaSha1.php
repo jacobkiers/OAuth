@@ -58,13 +58,13 @@ abstract class RsaSha1 extends SignatureMethod
     /**
      * Build up the signature.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      * @param JacobKiers\OAuth\Client  $client
      * @param JacobKiers\OAuth\Token   $token
      *
      * @return string
      */
-    public function buildSignature(Request $request, Client $client, Token $token = null)
+    public function buildSignature(RequestInterface $request, Client $client, Token $token = null)
     {
         $base_string = $request->getOAuthSignatureBaseString();
 
@@ -86,14 +86,14 @@ abstract class RsaSha1 extends SignatureMethod
     /**
      * Verifies that a given signature is correct.
      *
-     * @param JacobKiers\OAuth\Request  $request
+     * @param JacobKiers\OAuth\RequestInterface  $request
      * @param JacobKiers\OAuth\Consumer $client
      * @param JacobKiers\OAuth\Token    $token
      * @param string                   $signature
      *
      * @return bool
      */
-    public function checkSignature(Request $request, Client $client, Token $token, $signature)
+    public function checkSignature(RequestInterface $request, Client $client, Token $token, $signature)
     {
         $base_string = $request->getOAuthSignatureBaseString();
 
