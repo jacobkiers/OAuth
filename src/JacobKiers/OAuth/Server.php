@@ -45,16 +45,16 @@ class Server
     /**
      * Data store object reference.
      *
-     * @var JacobKiers\OAuth\DataStore
+     * @var JacobKiers\OAuth\DataStoreInterface
      */
     protected $data_store;
 
     /**
      * Construct OAuth server instance.
      *
-     * @param JacobKiers\OAuth\DataStore $data_store
+     * @param JacobKiers\OAuth\DataStoreInterface $data_store
      */
-    public function __construct(DataStore $data_store)
+    public function __construct(DataStoreInterface $data_store)
     {
         $this->data_store = $data_store;
     }

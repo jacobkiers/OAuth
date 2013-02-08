@@ -18,12 +18,14 @@ namespace JacobKiers\OAuth;
  * @package OAuth
  * @author Gary Jones <gary@garyjones.co.uk>
  */
-interface DataStore
+interface DataStoreInterface
 {
     /**
      * Validate the client.
      *
      * @param string $client_key
+     *
+     * @return JacobKiers\OAuth\Client
      */
     public function lookupClient($client_key);
 
@@ -33,6 +35,8 @@ interface DataStore
      * @param JacobKiers\OAuth\Client $client
      * @param JacobKiers\OAuth\Token  $token
      * @param string                 $token_type Request or access token
+     *
+     * @return JacobKiers\OAuth\Token
      */
     public function lookupToken(Client $client, Token $token, $token_type);
 
@@ -43,6 +47,8 @@ interface DataStore
      * @param JacobKiers\OAuth\Token  $token
      * @param string                 $nonce
      * @param int                    $timestamp
+     *
+     * @return boolean
      */
     public function lookupNonce(Client $client, Token $token, $nonce, $timestamp);
 
@@ -51,6 +57,8 @@ interface DataStore
      *
      * @param JacobKiers\OAuth\Client $client
      * @param string                 $callback URI to store as the post-authorization callback.
+     *
+     * @return JacobKiers\OAuth\Token
      */
     public function newRequestToken(Client $client, $callback = null);
 
@@ -63,6 +71,8 @@ interface DataStore
      * @param JacobKiers\OAuth\Client $client
      * @param JacobKiers\OAuth\Token  $token
      * @param string                 $verifier
+     *
+     * @return JacobKiers\OAuth\Token
      */
     public function newAccessToken(Client $client, Token $token, $verifier = null);
 }
