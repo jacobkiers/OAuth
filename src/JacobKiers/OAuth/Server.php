@@ -81,7 +81,7 @@ class Server
      *
      * @return JacobKiers\OAuth\Token
      */
-    public function fetchRequestToken(Request &$request)
+    public function fetchRequestToken(RequestInterface &$request)
     {
         $this->getVersion($request);
 
@@ -107,7 +107,7 @@ class Server
      *
      * @return JacobKiers\OAuth\Token
      */
-    public function fetchAccessToken(Request &$request)
+    public function fetchAccessToken(RequestInterface &$request)
     {
         $this->getVersion($request);
 
@@ -131,7 +131,7 @@ class Server
      *
      * @return array Client and Token
      */
-    public function verifyRequest(Request &$request)
+    public function verifyRequest(RequestInterface &$request)
     {
         $this->getVersion($request);
         $client = $this->getClient($request);
@@ -151,7 +151,7 @@ class Server
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function getVersion(Request &$request)
+    private function getVersion(RequestInterface &$request)
     {
         $version = $request->getOAuthVersion();
         if (!$version) {
@@ -176,7 +176,7 @@ class Server
      */
     private function getSignatureMethod(RequestInterface $request)
     {
-        $signature_method = $request instanceof Request ? $request->getOAuthSignatureMethod() : null;
+        $signature_method = $request instanceof RequestInterface ? $request->getOAuthSignatureMethod() : null;
 
         if (!$signature_method) {
             // According to chapter 7 ("Accessing Protected Resources") the signature-method
@@ -204,7 +204,7 @@ class Server
      */
     private function getClient(RequestInterface $request)
     {
-        $client_key = $request instanceof Request ? $request->getOAuthConsumerKey() : null;
+        $client_key = $request instanceof RequestInterface ? $request->getOAuthConsumerKey() : null;
 
         if (!$client_key) {
             throw new OAuthException('Invalid client key');
@@ -231,7 +231,7 @@ class Server
      */
     private function getToken(RequestInterface $request, Client $client, $token_type = 'access')
     {
-        $token_field = $request instanceof Request ? $request->getOAuthToken() : null;
+        $token_field = $request instanceof RequestInterface ? $request->getOAuthToken() : null;
 
         $token = $this->data_store->lookupToken($client, $token_type, $token_field);
         if (!$token) {
@@ -254,8 +254,8 @@ class Server
     private function checkSignature(RequestInterface $request, Client $client, Token $token)
     {
         // this should probably be in a different method
-        $timestamp = $request instanceof Request ? $request->getOAuthTimestamp() : null;
-        $nonce = $request instanceof Request ? $request->getOAuthNonce() : null;
+        $timestamp = $request instanceof RequestInterface ? $request->getOAuthTimestamp() : null;
+        $nonce = $request instanceof RequestInterface ? $request->getOAuthNonce() : null;
 
         $this->checkTimestamp($timestamp);
         $this->checkNonce($client, $token, $nonce, $timestamp);
