@@ -5,11 +5,11 @@
  * @package OAuth
  * @author Andy Smith
  * @author Gary Jones <gary@garyjones.co.uk>
- * @license https://raw.github.com/GaryJones/OAuth/master/LICENSE MIT
- * @link https://github.com/GaryJones/OAuth
+ * @license https://raw.github.com/jacobkiers/OAuth/master/LICENSE MIT
+ * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace GaryJones\OAuth;
+namespace JacobKiers\OAuth;
 
 /**
  * Handle an OAuth request.
@@ -79,7 +79,7 @@ class Request
      * @param string $http_url    Request URL.
      * @param array  $parameters  HTTP parameters.
      *
-     * @return GaryJones\OAuth\Request
+     * @return JacobKiers\OAuth\Request
      */
     public static function fromRequest($http_method = null, $http_url = null, $parameters = null)
     {
@@ -131,13 +131,13 @@ class Request
     /**
      * Helper function to set up the request.
      *
-     * @param GaryJones\OAuth\Client $client
-     * @param GaryJones\OAuth\Token  $token
+     * @param JacobKiers\OAuth\Client $client
+     * @param JacobKiers\OAuth\Token  $token
      * @param string                 $http_method
      * @param string                 $http_url
      * @param array                  $parameters
      *
-     * @return GaryJones\OAuth\Request
+     * @return JacobKiers\OAuth\Request
      */
     public static function fromClientAndToken(
         Client $client,
@@ -329,7 +329,7 @@ class Request
      *
      * @return string
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     public function toHeader($realm = null)
     {
@@ -373,8 +373,8 @@ class Request
      * Build signature and add it as parameter.
      *
      * @param string                 $signature_method
-     * @param GaryJones\OAuth\Client $client
-     * @param GaryJones\OAuth\Token  $token
+     * @param JacobKiers\OAuth\Client $client
+     * @param JacobKiers\OAuth\Token  $token
      */
     public function signRequest($signature_method, Client $client, Token $token)
     {
@@ -387,8 +387,8 @@ class Request
      * Build signature.
      *
      * @param string                 $signature_method
-     * @param GaryJones\OAuth\Client $client
-     * @param GaryJones\OAuth\Token  $token
+     * @param JacobKiers\OAuth\Client $client
+     * @param JacobKiers\OAuth\Token  $token
      *
      * @return string
      */

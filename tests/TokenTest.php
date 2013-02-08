@@ -1,8 +1,8 @@
 <?php
 
-use GaryJones\OAuth\Token;
-use GaryJones\OAuth\NullToken;
-use GaryJones\OAuth\Util;
+use JacobKiers\OAuth\Token;
+use JacobKiers\OAuth\NullToken;
+use JacobKiers\OAuth\Util;
 
 class TokenTest extends PHPUnit_Framework_TestCase
 {

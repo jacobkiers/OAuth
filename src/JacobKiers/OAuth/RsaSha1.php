@@ -5,11 +5,11 @@
  * @package OAuth
  * @author Andy Smith
  * @author Gary Jones <gary@garyjones.co.uk>
- * @license https://raw.github.com/GaryJones/OAuth/master/LICENSE MIT
- * @link https://github.com/GaryJones/OAuth
+ * @license https://raw.github.com/jacobkiers/OAuth/master/LICENSE MIT
+ * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace GaryJones\OAuth;
+namespace JacobKiers\OAuth;
 
 /**
  * The RSA-SHA1 signature method.
@@ -58,16 +58,15 @@ abstract class RsaSha1 extends SignatureMethod
     /**
      * Build up the signature.
      *
-     * @param GaryJones\OAuth\Request $request
-     * @param GaryJones\OAuth\Client  $client
-     * @param GaryJones\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\Client  $client
+     * @param JacobKiers\OAuth\Token   $token
      *
      * @return string
      */
     public function buildSignature(Request $request, Client $client, Token $token = null)
     {
         $base_string = $request->getSignatureBaseString();
-        //$request->base_string = $base_string;
 
         // Fetch the private key cert based on the request
         $cert = $this->fetchPrivateCert($request);
@@ -87,9 +86,9 @@ abstract class RsaSha1 extends SignatureMethod
     /**
      * Verifies that a given signature is correct.
      *
-     * @param GaryJones\OAuth\Request  $request
-     * @param GaryJones\OAuth\Consumer $client
-     * @param GaryJones\OAuth\Token    $token
+     * @param JacobKiers\OAuth\Request  $request
+     * @param JacobKiers\OAuth\Consumer $client
+     * @param JacobKiers\OAuth\Token    $token
      * @param string                   $signature
      *
      * @return bool

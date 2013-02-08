@@ -5,11 +5,11 @@
  * @package OAuth
  * @author Andy Smith
  * @author Gary Jones <gary@garyjones.co.uk>
- * @license https://raw.github.com/GaryJones/OAuth/master/LICENSE MIT
- * @link https://github.com/GaryJones/OAuth
+ * @license https://raw.github.com/jacobkiers/OAuth/master/LICENSE MIT
+ * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace GaryJones\OAuth;
+namespace JacobKiers\OAuth;
 
 /**
  * The actual implementation of validating and assigning tokens is left up to
@@ -30,8 +30,8 @@ interface DataStore
     /**
      * Validate a token.
      *
-     * @param GaryJones\OAuth\Client $client
-     * @param GaryJones\OAuth\Token  $token
+     * @param JacobKiers\OAuth\Client $client
+     * @param JacobKiers\OAuth\Token  $token
      * @param string                 $token_type Request or access token
      */
     public function lookupToken(Client $client, Token $token, $token_type);
@@ -39,8 +39,8 @@ interface DataStore
     /**
      * Validate that a nonce has not been used with the same timestamp before.
      *
-     * @param GaryJones\OAuth\Client $client
-     * @param GaryJones\OAuth\Token  $token
+     * @param JacobKiers\OAuth\Client $client
+     * @param JacobKiers\OAuth\Token  $token
      * @param string                 $nonce
      * @param int                    $timestamp
      */
@@ -49,7 +49,7 @@ interface DataStore
     /**
      * Return a new token attached to this client.
      *
-     * @param GaryJones\OAuth\Client $client
+     * @param JacobKiers\OAuth\Client $client
      * @param string                 $callback URI to store as the post-authorization callback.
      */
     public function newRequestToken(Client $client, $callback = null);
@@ -60,8 +60,8 @@ interface DataStore
      *
      * Should also invalidate the request token.
      *
-     * @param GaryJones\OAuth\Client $client
-     * @param GaryJones\OAuth\Token  $token
+     * @param JacobKiers\OAuth\Client $client
+     * @param JacobKiers\OAuth\Token  $token
      * @param string                 $verifier
      */
     public function newAccessToken(Client $client, Token $token, $verifier = null);

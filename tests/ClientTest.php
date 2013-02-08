@@ -1,6 +1,6 @@
 <?php
 
-use GaryJones\OAuth\Client;
+use JacobKiers\OAuth\Client;
 
 class ClientTest extends PHPUnit_Framework_TestCase
 {

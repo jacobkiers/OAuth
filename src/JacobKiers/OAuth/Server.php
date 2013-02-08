@@ -5,11 +5,11 @@
  * @package OAuth
  * @author Andy Smith
  * @author Gary Jones <gary@garyjones.co.uk>
- * @license https://raw.github.com/GaryJones/OAuth/master/LICENSE MIT
- * @link https://github.com/GaryJones/OAuth
+ * @license https://raw.github.com/jacobkiers/OAuth/master/LICENSE MIT
+ * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace GaryJones\OAuth;
+namespace JacobKiers\OAuth;
 
 /**
  * OAuth server.
@@ -45,14 +45,14 @@ class Server
     /**
      * Data store object reference.
      *
-     * @var GaryJones\OAuth\DataStore
+     * @var JacobKiers\OAuth\DataStore
      */
     protected $data_store;
 
     /**
      * Construct OAuth server instance.
      *
-     * @param GaryJones\OAuth\DataStore $data_store
+     * @param JacobKiers\OAuth\DataStore $data_store
      */
     public function __construct(DataStore $data_store)
     {
@@ -62,7 +62,7 @@ class Server
     /**
      * Add a supported signature method.
      *
-     * @param GaryJones\OAuth\SignatureMethod $signature_method
+     * @param JacobKiers\OAuth\SignatureMethod $signature_method
      */
     public function addSignatureMethod(SignatureMethod $signature_method)
     {
@@ -77,9 +77,9 @@ class Server
      *
      * Returns the request token on success
      *
-     * @param GaryJones\OAuth\Request $request
+     * @param JacobKiers\OAuth\Request $request
      *
-     * @return GaryJones\OAuth\Token
+     * @return JacobKiers\OAuth\Token
      */
     public function fetchRequestToken(Request &$request)
     {
@@ -103,9 +103,9 @@ class Server
      *
      * Returns the access token on success.
      *
-     * @param GaryJones\OAuth\Request $request
+     * @param JacobKiers\OAuth\Request $request
      *
-     * @return GaryJones\OAuth\Token
+     * @return JacobKiers\OAuth\Token
      */
     public function fetchAccessToken(Request &$request)
     {
@@ -127,7 +127,7 @@ class Server
     /**
      * Verify an api call, checks all the parameters.
      *
-     * @param GaryJones\OAuth\Request $request
+     * @param JacobKiers\OAuth\Request $request
      *
      * @return array Client and Token
      */
@@ -145,11 +145,11 @@ class Server
     /**
      * Check that version is 1.0.
      *
-     * @param GaryJones\OAuth\Request $request
+     * @param JacobKiers\OAuth\Request $request
      *
      * @return string
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     private function getVersion(Request &$request)
     {
@@ -168,11 +168,11 @@ class Server
     /**
      * Get the signature method name, and if it is supported.
      *
-     * @param GaryJones\OAuth\Request $request
+     * @param JacobKiers\OAuth\Request $request
      *
      * @return string Signature method name.
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     private function getSignatureMethod(Request $request)
     {
@@ -196,11 +196,11 @@ class Server
     /**
      * Try to find the client for the provided request's client key.
      *
-     * @param GaryJones\OAuth\Request $request
+     * @param JacobKiers\OAuth\Request $request
      *
-     * @return GaryJones\OAuth\Client
+     * @return JacobKiers\OAuth\Client
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     private function getClient(Request $request)
     {
@@ -221,13 +221,13 @@ class Server
     /**
      * Try to find the token for the provided request's token key.
      *
-     * @param GaryJones\OAuth\Request $request
-     * @param GaryJones\OAuth\Client  $client
+     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\Client  $client
      * @param string                   $token_type
      *
-     * @return GaryJones\OAuth\Token
+     * @return JacobKiers\OAuth\Token
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     private function getToken(Request $request, Client $client, $token_type = 'access')
     {
@@ -245,11 +245,11 @@ class Server
      *
      * Should determine the signature method appropriately
      *
-     * @param GaryJones\OAuth\Request $request
-     * @param GaryJones\OAuth\Client  $client
-     * @param GaryJones\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\Client  $client
+     * @param JacobKiers\OAuth\Token   $token
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     private function checkSignature(Request $request, Client $client, Token $token)
     {
@@ -275,7 +275,7 @@ class Server
      *
      * @param int $timestamp
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     private function checkTimestamp($timestamp)
     {
@@ -293,12 +293,12 @@ class Server
     /**
      * Check that the nonce is not repeated
      *
-     * @param GaryJones\OAuth\Client $client
-     * @param GaryJones\OAuth\Token  $token
+     * @param JacobKiers\OAuth\Client $client
+     * @param JacobKiers\OAuth\Token  $token
      * @param string                 $nonce
      * @param int                    $timestamp
      *
-     * @throws GaryJones\OAuth\OAuthException
+     * @throws JacobKiers\OAuth\OAuthException
      */
     private function checkNonce(Client $client, Token $token, $nonce, $timestamp)
     {

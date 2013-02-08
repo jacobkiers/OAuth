@@ -5,11 +5,11 @@
  * @package OAuth
  * @author Andy Smith
  * @author Gary Jones <gary@garyjones.co.uk>
- * @license https://raw.github.com/GaryJones/OAuth/master/LICENSE MIT
- * @link https://github.com/GaryJones/OAuth
+ * @license https://raw.github.com/jacobkiers/OAuth/master/LICENSE MIT
+ * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace GaryJones\OAuth;
+namespace JacobKiers\OAuth;
 
 /**
  * Group of static utility methods.
@@ -29,7 +29,7 @@ class Util
     public static function urlencodeRfc3986($input)
     {
         if (is_array($input)) {
-            return array_map(array('GaryJones\OAuth\Util', 'urlencodeRfc3986'), $input);
+            return array_map(array('JacobKiers\OAuth\Util', 'urlencodeRfc3986'), $input);
         } elseif (is_scalar($input)) {
             return str_replace('+', ' ', str_replace('%7E', '~', rawurlencode($input)));
         } else {

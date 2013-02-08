@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use GaryJones\OAuth\Request;
+use JacobKiers\OAuth\Request;
 
 class RequestTest extends PHPUnit_Framework_TestCase
 {

@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use GaryJones\OAuth\SignatureMethod;
+use JacobKiers\OAuth\SignatureMethod;
 
 /**
  * Create concrete class from abstract SignatureMethod.
@@ -14,9 +14,9 @@ class FooBarSignatureMethod extends SignatureMethod
     }
 
     public function buildSignature(
-        \GaryJones\OAuth\Request $request,
-        \GaryJones\OAuth\Client $client,
-        \GaryJones\OAuth\Token $token = null
+        \JacobKiers\OAuth\Request $request,
+        \JacobKiers\OAuth\Client $client,
+        \JacobKiers\OAuth\Token $token = null
     ) {
     }
 }
@@ -66,14 +66,14 @@ class SignatureTest extends PHPUnit_Framework_TestCase
 
     private function getClient()
     {
-        return m::mock('GaryJones\OAuth\Client', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Client', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('secret')->once();
         });
     }
 
     private function getToken()
     {
-        return m::mock('GaryJones\OAuth\Token', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Token', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('token_secret');
         });
     }

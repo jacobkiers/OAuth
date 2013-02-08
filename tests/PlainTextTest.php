@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use GaryJones\OAuth\PlainText;
+use JacobKiers\OAuth\PlainText;
 
 class PlainTextTest extends PHPUnit_Framework_TestCase
 {
@@ -56,19 +56,19 @@ class PlainTextTest extends PHPUnit_Framework_TestCase
 
     private function getRequest()
     {
-        return m::mock('GaryJones\OAuth\Request');
+        return m::mock('JacobKiers\OAuth\Request');
     }
 
     private function getClient()
     {
-        return m::mock('GaryJones\OAuth\Client', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Client', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('secret')->once();
         });
     }
 
     private function getToken()
     {
-        return m::mock('GaryJones\OAuth\Token', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Token', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('token_secret');
         });
     }

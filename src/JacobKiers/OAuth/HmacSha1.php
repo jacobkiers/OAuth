@@ -5,11 +5,11 @@
  * @package OAuth
  * @author Andy Smith
  * @author Gary Jones <gary@garyjones.co.uk>
- * @license https://raw.github.com/GaryJones/OAuth/master/LICENSE MIT
- * @link https://github.com/GaryJones/OAuth
+ * @license https://raw.github.com/jacobkiers/OAuth/master/LICENSE MIT
+ * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace GaryJones\OAuth;
+namespace JacobKiers\OAuth;
 
 /**
  * The HMAC-SHA1 signature method.
@@ -46,9 +46,9 @@ class HmacSha1 extends SignatureMethod
      * Please note that the second encoding MUST NOT happen in the SignatureMethod, as
      * OAuthRequest handles this!
      *
-     * @param GaryJones\OAuth\Request $request
-     * @param GaryJones\OAuth\Client  $client
-     * @param GaryJones\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\Client  $client
+     * @param JacobKiers\OAuth\Token   $token
      *
      * @return string
      */

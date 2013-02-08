@@ -5,11 +5,11 @@
  * @package OAuth
  * @author Andy Smith
  * @author Gary Jones <gary@garyjones.co.uk>
- * @license https://raw.github.com/GaryJones/OAuth/master/LICENSE MIT
- * @link https://github.com/GaryJones/OAuth
+ * @license https://raw.github.com/jacobkiers/OAuth/master/LICENSE MIT
+ * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace GaryJones\OAuth;
+namespace JacobKiers\OAuth;
 
 /**
  * A class for implementing a Signature Method.
@@ -36,9 +36,9 @@ abstract class SignatureMethod
      * the encoding is handled in OAuthRequest when the final
      * request is serialized.
      *
-     * @param GaryJones\OAuth\Request $request
-     * @param GaryJones\OAuth\Client  $client
-     * @param GaryJones\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\Client  $client
+     * @param JacobKiers\OAuth\Token   $token
      *
      * @return string
      */
@@ -47,8 +47,8 @@ abstract class SignatureMethod
     /**
      * Get the signature key, made up of client and optionally token shared secrets.
      *
-     * @param GaryJones\OAuth\Client  $client
-     * @param GaryJones\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Client  $client
+     * @param JacobKiers\OAuth\Token   $token
      *
      * @return string
      */
@@ -66,9 +66,9 @@ abstract class SignatureMethod
     /**
      * Verifies that a given signature is correct.
      *
-     * @param GaryJones\OAuth\Request  $request
-     * @param GaryJones\OAuth\Consumer $client
-     * @param GaryJones\OAuth\Token    $token
+     * @param JacobKiers\OAuth\Request  $request
+     * @param JacobKiers\OAuth\Consumer $client
+     * @param JacobKiers\OAuth\Token    $token
      * @param string                   $signature
      *
      * @return bool
