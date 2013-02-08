@@ -66,7 +66,7 @@ abstract class RsaSha1 extends SignatureMethod
      */
     public function buildSignature(Request $request, Client $client, Token $token = null)
     {
-        $base_string = $request->getSignatureBaseString();
+        $base_string = $request->getOAuthSignatureBaseString();
 
         // Fetch the private key cert based on the request
         $cert = $this->fetchPrivateCert($request);
@@ -95,7 +95,7 @@ abstract class RsaSha1 extends SignatureMethod
      */
     public function checkSignature(Request $request, Client $client, Token $token, $signature)
     {
-        $base_string = $request->getSignatureBaseString();
+        $base_string = $request->getOAuthSignatureBaseString();
 
         $decoded_sig = base64_decode($signature);
 

@@ -57,7 +57,7 @@ class HmacSha1Test extends PHPUnit_Framework_TestCase
     private function getRequest()
     {
         return m::mock('JacobKiers\OAuth\Request', function ($mock) {
-            $mock->shouldReceive('getSignatureBaseString')
+            $mock->shouldReceive('getOAuthSignatureBaseString')
                 ->withNoArgs()
                 ->andReturn('POST&http%3A%2F%2Fexample.com%2Ffoobar&oauth_signature_method%3DHMAC-SHA1')->once();
         });

@@ -77,7 +77,7 @@ class Server
      *
      * Returns the request token on success
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      *
      * @return JacobKiers\OAuth\Token
      */
@@ -93,7 +93,7 @@ class Server
         $this->checkSignature($request, $client, $token);
 
         // Rev A change
-        $callback = $request->getParameter('oauth_callback');
+        $callback = $request->getOAuthCallback();
 
         return $this->data_store->newRequestToken($client, $callback);
     }
@@ -103,7 +103,7 @@ class Server
      *
      * Returns the access token on success.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      *
      * @return JacobKiers\OAuth\Token
      */
@@ -119,7 +119,7 @@ class Server
         $this->checkSignature($request, $client, $token);
 
         // Rev A change
-        $verifier = $request->getParameter('oauth_verifier');
+        $verifier = $request->getOAuthVerifier();
 
         return $this->data_store->newAccessToken($token, $client, $verifier);
     }
@@ -127,7 +127,7 @@ class Server
     /**
      * Verify an api call, checks all the parameters.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      *
      * @return array Client and Token
      */
@@ -145,7 +145,7 @@ class Server
     /**
      * Check that version is 1.0.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      *
      * @return string
      *
@@ -153,7 +153,7 @@ class Server
      */
     private function getVersion(Request &$request)
     {
-        $version = $request->getParameter('oauth_version');
+        $version = $request->getOAuthVersion();
         if (!$version) {
             // Service Providers MUST assume the protocol version to be 1.0 if this parameter is not present.
             // Chapter 7.0 ("Accessing Protected Ressources")
@@ -168,15 +168,15 @@ class Server
     /**
      * Get the signature method name, and if it is supported.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      *
      * @return string Signature method name.
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function getSignatureMethod(Request $request)
+    private function getSignatureMethod(RequestInterface $request)
     {
-        $signature_method = $request instanceof Request ? $request->getParameter('oauth_signature_method') : null;
+        $signature_method = $request instanceof Request ? $request->getOAuthSignatureMethod() : null;
 
         if (!$signature_method) {
             // According to chapter 7 ("Accessing Protected Resources") the signature-method
@@ -196,15 +196,15 @@ class Server
     /**
      * Try to find the client for the provided request's client key.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      *
      * @return JacobKiers\OAuth\Client
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function getClient(Request $request)
+    private function getClient(RequestInterface $request)
     {
-        $client_key = $request instanceof Request ? $request->getParameter('oauth_consumer_key') : null;
+        $client_key = $request instanceof Request ? $request->getOAuthConsumerKey() : null;
 
         if (!$client_key) {
             throw new OAuthException('Invalid client key');
@@ -221,7 +221,7 @@ class Server
     /**
      * Try to find the token for the provided request's token key.
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      * @param JacobKiers\OAuth\Client  $client
      * @param string                   $token_type
      *
@@ -229,9 +229,9 @@ class Server
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function getToken(Request $request, Client $client, $token_type = 'access')
+    private function getToken(RequestInterface $request, Client $client, $token_type = 'access')
     {
-        $token_field = $request instanceof Request ? $request->getParameter('oauth_token') : null;
+        $token_field = $request instanceof Request ? $request->getOAuthToken() : null;
 
         $token = $this->data_store->lookupToken($client, $token_type, $token_field);
         if (!$token) {
@@ -245,24 +245,24 @@ class Server
      *
      * Should determine the signature method appropriately
      *
-     * @param JacobKiers\OAuth\Request $request
+     * @param JacobKiers\OAuth\RequestInterface $request
      * @param JacobKiers\OAuth\Client  $client
      * @param JacobKiers\OAuth\Token   $token
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function checkSignature(Request $request, Client $client, Token $token)
+    private function checkSignature(RequestInterface $request, Client $client, Token $token)
     {
         // this should probably be in a different method
-        $timestamp = $request instanceof Request ? $request->getParameter('oauth_timestamp') : null;
-        $nonce = $request instanceof Request ? $request->getParameter('oauth_nonce') : null;
+        $timestamp = $request instanceof Request ? $request->getOAuthTimestamp() : null;
+        $nonce = $request instanceof Request ? $request->getOAuthNonce() : null;
 
         $this->checkTimestamp($timestamp);
         $this->checkNonce($client, $token, $nonce, $timestamp);
 
         $signature_method = $this->getSignatureMethod($request);
 
-        $signature = $request->getParameter('oauth_signature');
+        $signature = $request->getOAuthSignature();
         $valid_sig = $signature_method->checkSignature($request, $client, $token, $signature);
 
         if (!$valid_sig) {

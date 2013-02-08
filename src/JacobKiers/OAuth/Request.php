@@ -17,7 +17,7 @@ namespace JacobKiers\OAuth;
  * @package OAuth
  * @author Andy Smith
  */
-class Request
+class Request implements RequestInterface
 {
     /**
      * HTTP parameters.
@@ -241,8 +241,10 @@ class Request
      * The base string defined as the method, the url
      * and the parameters (normalized), each urlencoded
      * and the concated with &.
+     *
+     * @return string
      */
-    public function getSignatureBaseString()
+    public function getOAuthSignatureBaseString()
     {
         $parts = array(
             $this->getNormalizedHttpMethod(),
@@ -396,6 +398,79 @@ class Request
     {
         return $signature_method->buildSignature($this, $client, $token);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthCallback()
+    {
+        return $this->getParameter('oauth_callback');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthConsumerKey()
+    {
+        return $this->getParameter('oauth_consumer_key');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthNonce()
+    {
+        return $this->getParameter('oauth_nonce');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthSignature()
+    {
+        return $this->getParameter('oauth_signature');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthSignatureMethod()
+    {
+        return $this->getParameter('oauth_signature_method');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthTimestamp()
+    {
+        return $this->getParameter('oauth_timestamp');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthToken()
+    {
+        return $this->getParameter('oauth_token');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthVerifier()
+    {
+        return $this->getParameter('oauth_verifier');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOAuthVersion()
+    {
+        return $this->getParameter('oauth_version');
+    }
+
 
     /**
      * Get current time.
