@@ -14,7 +14,7 @@ class FooBarSignatureMethod extends SignatureMethod
     }
 
     public function buildSignature(
-        \JacobKiers\OAuth\Request $request,
+        \JacobKiers\OAuth\RequestInterface $request,
         \JacobKiers\OAuth\Client $client,
         \JacobKiers\OAuth\Token $token = null
     ) {
