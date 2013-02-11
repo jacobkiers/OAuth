@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use JacobKiers\OAuth\PlainText;
+use JacobKiers\OAuth\SignatureMethod\PlainText;
 
 class PlainTextTest extends PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class PlainTextTest extends PHPUnit_Framework_TestCase
 
         // Get mock objects
         $request = $this->getRequest();
-        $client = $this->getClient();
+        $client = $this->getConsumer();
 
         // Run method being tested
         $signature = $plaintext->buildSignature($request, $client);
@@ -39,7 +39,7 @@ class PlainTextTest extends PHPUnit_Framework_TestCase
 
         // Get mock objects
         $request = $this->getRequest();
-        $client = $this->getClient();
+        $client = $this->getConsumer();
         $token = $this->getToken();
 
         // Run method being tested
@@ -56,19 +56,19 @@ class PlainTextTest extends PHPUnit_Framework_TestCase
 
     private function getRequest()
     {
-        return m::mock('JacobKiers\OAuth\Request');
+        return m::mock('JacobKiers\OAuth\Request\Request');
     }
 
-    private function getClient()
+    private function getConsumer()
     {
-        return m::mock('JacobKiers\OAuth\Client', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Consumer\Consumer', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('secret')->once();
         });
     }
 
     private function getToken()
     {
-        return m::mock('JacobKiers\OAuth\Token', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Token\Token', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('token_secret');
         });
     }

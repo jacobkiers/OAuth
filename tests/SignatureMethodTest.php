@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use JacobKiers\OAuth\SignatureMethod;
+use JacobKiers\OAuth\SignatureMethod\SignatureMethod;
 
 /**
  * Create concrete class from abstract SignatureMethod.
@@ -14,9 +14,9 @@ class FooBarSignatureMethod extends SignatureMethod
     }
 
     public function buildSignature(
-        \JacobKiers\OAuth\RequestInterface $request,
-        \JacobKiers\OAuth\Client $client,
-        \JacobKiers\OAuth\Token $token = null
+        \JacobKiers\OAuth\Request\RequestInterface $request,
+        \JacobKiers\OAuth\Consumer\ConsumerInterface $consumer,
+        \JacobKiers\OAuth\Token\TokenInterface $token = null
     ) {
     }
 }
@@ -34,10 +34,10 @@ class SignatureTest extends PHPUnit_Framework_TestCase
         $signature_method = $this->getSignatureMethod();
 
         // Get mock objects
-        $client = $this->getClient();
+        $consumer = $this->getConsumer();
 
         // Run method being tested
-        $signature_key = $signature_method->getSignatureKey($client);
+        $signature_key = $signature_method->getSignatureKey($consumer);
 
         // Check results
         $this->assertEquals('secret&', $signature_key);
@@ -49,11 +49,11 @@ class SignatureTest extends PHPUnit_Framework_TestCase
         $signature_method = $this->getSignatureMethod();
 
         // Get mock objects
-        $client = $this->getClient();
+        $consumer = $this->getConsumer();
         $token = $this->getToken();
 
         // Run method being tested
-        $signature_key = $signature_method->getSignatureKey($client, $token);
+        $signature_key = $signature_method->getSignatureKey($consumer, $token);
 
         // Check results
         $this->assertEquals('secret&token_secret', $signature_key);
@@ -64,16 +64,16 @@ class SignatureTest extends PHPUnit_Framework_TestCase
         return new FooBarSignatureMethod;
     }
 
-    private function getClient()
+    private function getConsumer()
     {
-        return m::mock('JacobKiers\OAuth\Client', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Consumer\Consumer', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('secret')->once();
         });
     }
 
     private function getToken()
     {
-        return m::mock('JacobKiers\OAuth\Token', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Token\Token', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('token_secret');
         });
     }

@@ -9,14 +9,18 @@
  * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace JacobKiers\OAuth;
+namespace JacobKiers\OAuth\SignatureMethod;
+
+use \JacobKiers\OAuth\Consumer\ConsumerInterface;
+use \JacobKiers\OAuth\Token\TokenInterface;
+use \JacobKiers\OAuth\Request\RequestInterface;
 
 /**
  * The RSA-SHA1 signature method.
  *
  * The RSA-SHA1 signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in
  * [RFC3447] section 8.2 (more simply known as PKCS#1), using SHA-1 as the hash function for
- * EMSA-PKCS1-v1_5. It is assumed that the Client has provided its RSA public key in a
+ * EMSA-PKCS1-v1_5. It is assumed that the Consumer has provided its RSA public key in a
  * verified way to the Service Provider, in a manner which is beyond the scope of this
  * specification.
  *   - Chapter 9.3 ("RSA-SHA1")
@@ -38,7 +42,7 @@ abstract class RsaSha1 extends SignatureMethod
 
     /**
      * Up to the SP to implement this lookup of keys. Possible ideas are:
-     * (1) do a lookup in a table of trusted certs keyed off of client
+     * (1) do a lookup in a table of trusted certs keyed off of consumer
      * (2) fetch via http using a url provided by the requester
      * (3) some sort of specific discovery code based on request
      *
@@ -49,7 +53,7 @@ abstract class RsaSha1 extends SignatureMethod
 
     /**
      * Up to the SP to implement this lookup of keys. Possible ideas are:
-     * (1) do a lookup in a table of trusted certs keyed off of client
+     * (1) do a lookup in a table of trusted certs keyed off of consumer
      *
      * Either way should return a string representation of the certificate
      */
@@ -58,13 +62,13 @@ abstract class RsaSha1 extends SignatureMethod
     /**
      * Build up the signature.
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
-     * @param JacobKiers\OAuth\Client  $client
-     * @param JacobKiers\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface        $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface     $token
      *
      * @return string
      */
-    public function buildSignature(RequestInterface $request, Client $client, Token $token = null)
+    public function buildSignature(RequestInterface $request, ConsumerInterface $consumer, TokenInterface $token = null)
     {
         $base_string = $request->getOAuthSignatureBaseString();
 
@@ -86,14 +90,14 @@ abstract class RsaSha1 extends SignatureMethod
     /**
      * Verifies that a given signature is correct.
      *
-     * @param JacobKiers\OAuth\RequestInterface  $request
-     * @param JacobKiers\OAuth\Consumer $client
-     * @param JacobKiers\OAuth\Token    $token
-     * @param string                   $signature
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface        $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface     $token
+     * @param string                                    $signature
      *
      * @return bool
      */
-    public function checkSignature(RequestInterface $request, Client $client, Token $token, $signature)
+    public function checkSignature(RequestInterface $request, ConsumerInterface $consumer, TokenInterface $token, $signature)
     {
         $base_string = $request->getOAuthSignatureBaseString();
 
