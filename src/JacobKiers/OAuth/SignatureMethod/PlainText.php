@@ -9,7 +9,11 @@
  * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace JacobKiers\OAuth;
+namespace JacobKiers\OAuth\SignatureMethod;
+
+use \JacobKiers\OAuth\Consumer\ConsumerInterface;
+use \JacobKiers\OAuth\Token\TokenInterface;
+use \JacobKiers\OAuth\Request\RequestInterface;
 
 /**
  * PLAINTEXT signature method.
@@ -36,7 +40,7 @@ class PlainText extends SignatureMethod
     /**
      * Build up the signature.
      *
-     * oauth_signature is set to the concatenated encoded values of the Client Secret and
+     * oauth_signature is set to the concatenated encoded values of the Consumer Secret and
      * Token Secret, separated by a '&' character (ASCII code 38), even if either secret is
      * empty. The result MUST be encoded again.
      *   - Chapter 9.4.1 ("Generating Signatures")
@@ -44,14 +48,14 @@ class PlainText extends SignatureMethod
      * Please note that the second encoding MUST NOT happen in the SignatureMethod, as
      * OAuthRequest handles this!
      *
-     * @param JacobKiers\OAuth\RequestInterface $request
-     * @param JacobKiers\OAuth\Client  $client
-     * @param JacobKiers\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface        $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface     $token
      *
      * @return string
      */
-    public function buildSignature(RequestInterface $request, Client $client, Token $token = null)
+    public function buildSignature(RequestInterface $request, ConsumerInterface $consumer, TokenInterface $token = null)
     {
-        return $this->getSignatureKey($client, $token);
+        return $this->getSignatureKey($consumer, $token);
     }
 }

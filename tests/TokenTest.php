@@ -1,7 +1,7 @@
 <?php
 
-use JacobKiers\OAuth\Token;
-use JacobKiers\OAuth\NullToken;
+use JacobKiers\OAuth\Token\Token;
+use JacobKiers\OAuth\Token\NullToken;
 use JacobKiers\OAuth\Util;
 
 class TokenTest extends PHPUnit_Framework_TestCase

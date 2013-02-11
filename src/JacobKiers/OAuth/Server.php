@@ -11,6 +11,14 @@
 
 namespace JacobKiers\OAuth;
 
+use \JacobKiers\OAuth\Token\Token;
+use \JacobKiers\OAuth\Token\NullToken;
+use \JacobKiers\OAuth\Token\TokenInterface;
+use \JacobKiers\OAuth\DataStore\DataStoreInterface;
+use \JacobKiers\OAuth\Request\RequestInterface;
+use \JacobKiers\OAuth\Consumer\ConsumerInterface;
+use \JacobKiers\OAuth\SignatureMethod\SignatureMethodInterface;
+
 /**
  * OAuth server.
  *
@@ -45,14 +53,14 @@ class Server
     /**
      * Data store object reference.
      *
-     * @var JacobKiers\OAuth\DataStoreInterface
+     * @var JacobKiers\OAuth\DataStore\DataStoreInterface
      */
     protected $data_store;
 
     /**
      * Construct OAuth server instance.
      *
-     * @param JacobKiers\OAuth\DataStoreInterface $data_store
+     * @param JacobKiers\OAuth\DataStore\DataStoreInterface $data_store
      */
     public function __construct(DataStoreInterface $data_store)
     {
@@ -62,9 +70,9 @@ class Server
     /**
      * Add a supported signature method.
      *
-     * @param JacobKiers\OAuth\SignatureMethod $signature_method
+     * @param JacobKiers\OAuth\SignatureMethod\SignatureMethodInterface $signature_method
      */
-    public function addSignatureMethod(SignatureMethod $signature_method)
+    public function addSignatureMethod(SignatureMethodInterface $signature_method)
     {
         $this->signature_methods[$signature_method->getName()] =
             $signature_method;
@@ -77,25 +85,25 @@ class Server
      *
      * Returns the request token on success
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
      *
-     * @return JacobKiers\OAuth\Token
+     * @return JacobKiers\OAuth\Token\TokenInterface
      */
     public function fetchRequestToken(RequestInterface &$request)
     {
         $this->getVersion($request);
 
-        $client = $this->getClient($request);
+        $consumer = $this->getConsumer($request);
 
         // no token required for the initial token request
         $token = new NullToken;
 
-        $this->checkSignature($request, $client, $token);
+        $this->checkSignature($request, $consumer, $token);
 
         // Rev A change
         $callback = $request->getOAuthCallback();
 
-        return $this->data_store->newRequestToken($client, $callback);
+        return $this->data_store->newRequestToken($consumer, $callback);
     }
 
     /**
@@ -103,41 +111,41 @@ class Server
      *
      * Returns the access token on success.
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
      *
-     * @return JacobKiers\OAuth\Token
+     * @return JacobKiers\OAuth\Token\TokenInterface
      */
     public function fetchAccessToken(RequestInterface &$request)
     {
         $this->getVersion($request);
 
-        $client = $this->getClient($request);
+        $consumer = $this->getConsumer($request);
 
         // requires authorized request token
-        $token = $this->getToken($request, $client, 'request');
+        $token = $this->getToken($request, $consumer, 'request');
 
-        $this->checkSignature($request, $client, $token);
+        $this->checkSignature($request, $consumer, $token);
 
         // Rev A change
         $verifier = $request->getOAuthVerifier();
 
-        return $this->data_store->newAccessToken($client, $token, $verifier);
+        return $this->data_store->newAccessToken($consumer, $token, $verifier);
     }
 
     /**
      * Verify an api call, checks all the parameters.
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
      *
-     * @return array Client and Token
+     * @return array Consumer and Token
      */
     public function verifyRequest(RequestInterface &$request)
     {
         $this->getVersion($request);
-        $client = $this->getClient($request);
-        $token = $this->getToken($request, $client, 'access');
-        $this->checkSignature($request, $client, $token);
-        return array($client, $token);
+        $consumer = $this->getConsumer($request);
+        $token = $this->getToken($request, $consumer, 'access');
+        $this->checkSignature($request, $consumer, $token);
+        return array($consumer, $token);
     }
 
     // Internals from here
@@ -145,7 +153,7 @@ class Server
     /**
      * Check that version is 1.0.
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
      *
      * @return string
      *
@@ -168,7 +176,7 @@ class Server
     /**
      * Get the signature method name, and if it is supported.
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
      *
      * @return string Signature method name.
      *
@@ -194,46 +202,46 @@ class Server
     }
 
     /**
-     * Try to find the client for the provided request's client key.
+     * Try to find the consumer for the provided request's consumer key.
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
+     * @param JacobKiers\OAuth\Request\RequestInterface $request
      *
-     * @return JacobKiers\OAuth\Client
+     * @return JacobKiers\OAuth\Consumer\ConsumerInterface
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function getClient(RequestInterface $request)
+    private function getConsumer(RequestInterface $request)
     {
-        $client_key = $request instanceof RequestInterface ? $request->getOAuthConsumerKey() : null;
+        $consumer_key = $request instanceof RequestInterface ? $request->getOAuthConsumerKey() : null;
 
-        if (!$client_key) {
-            throw new OAuthException('Invalid client key');
+        if (!$consumer_key) {
+            throw new OAuthException('Invalid consumer key');
         }
 
-        $client = $this->data_store->lookupClient($client_key);
-        if (!$client) {
-            throw new OAuthException('Invalid client');
+        $consumer = $this->data_store->lookupConsumer($consumer_key);
+        if (!$consumer) {
+            throw new OAuthException('Invalid consumer');
         }
 
-        return $client;
+        return $consumer;
     }
 
     /**
      * Try to find the token for the provided request's token key.
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
-     * @param JacobKiers\OAuth\Client  $client
-     * @param string                   $token_type
+     * @param JacobKiers\OAuth\Request\RequestInterface   $request
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface $consumer
+     * @param string                                      $token_type
      *
-     * @return JacobKiers\OAuth\Token
+     * @return JacobKiers\OAuth\Token\TokenInterface
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function getToken(RequestInterface $request, Client $client, $token_type = 'access')
+    private function getToken(RequestInterface $request, ConsumerInterface $consumer, $token_type = 'access')
     {
         $token_key = $request instanceof RequestInterface ? $request->getOAuthToken() : null;
 
-        $token = $this->data_store->lookupToken($client, $token_type, $token_key);
+        $token = $this->data_store->lookupToken($consumer, $token_type, $token_key);
         if (!$token) {
             throw new OAuthException("Invalid $token_type token: $token_field");
         }
@@ -245,25 +253,25 @@ class Server
      *
      * Should determine the signature method appropriately
      *
-     * @param JacobKiers\OAuth\RequestInterfaceInterface $request
-     * @param JacobKiers\OAuth\Client  $client
-     * @param JacobKiers\OAuth\Token   $token
+     * @param JacobKiers\OAuth\Request\RequestInterface   $request
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface       $token
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function checkSignature(RequestInterface $request, Client $client, Token $token)
+    private function checkSignature(RequestInterface $request, ConsumerInterface $consumer, TokenInterface $token)
     {
         // this should probably be in a different method
         $timestamp = $request instanceof RequestInterface ? $request->getOAuthTimestamp() : null;
         $nonce = $request instanceof RequestInterface ? $request->getOAuthNonce() : null;
 
         $this->checkTimestamp($timestamp);
-        $this->checkNonce($client, $token, $nonce, $timestamp);
+        $this->checkNonce($consumer, $token, $nonce, $timestamp);
 
         $signature_method = $this->getSignatureMethod($request);
 
         $signature = $request->getOAuthSignature();
-        $valid_sig = $signature_method->checkSignature($request, $client, $token, $signature);
+        $valid_sig = $signature_method->checkSignature($request, $consumer, $token, $signature);
 
         if (!$valid_sig) {
             throw new OAuthException('Invalid signature');
@@ -293,21 +301,21 @@ class Server
     /**
      * Check that the nonce is not repeated
      *
-     * @param JacobKiers\OAuth\Client $client
-     * @param JacobKiers\OAuth\Token  $token
-     * @param string                 $nonce
-     * @param int                    $timestamp
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface    $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface $token
+     * @param string                                $nonce
+     * @param int                                   $timestamp
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function checkNonce(Client $client, Token $token, $nonce, $timestamp)
+    private function checkNonce(ConsumerInterface $consumer, TokenInterface $token, $nonce, $timestamp)
     {
         if (!$nonce) {
             throw new OAuthException('Missing nonce parameter. The parameter is required');
         }
 
         // verify that the nonce is uniqueish
-        $found = $this->data_store->lookupNonce($client, $token, $nonce, $timestamp);
+        $found = $this->data_store->lookupNonce($consumer, $token, $nonce, $timestamp);
         if ($found) {
             throw new OAuthException('Nonce already used: ' . $nonce);
         }

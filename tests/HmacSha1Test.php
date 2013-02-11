@@ -1,7 +1,7 @@
 <?php
 
 use Mockery as m;
-use JacobKiers\OAuth\HmacSha1;
+use JacobKiers\OAuth\SignatureMethod\HmacSha1;
 
 class HmacSha1Test extends PHPUnit_Framework_TestCase
 {
@@ -23,7 +23,7 @@ class HmacSha1Test extends PHPUnit_Framework_TestCase
 
         // Get mock objects
         $request = $this->getRequest();
-        $client = $this->getClient();
+        $client = $this->getConsumer();
 
         // Run method being tested
         $signature = $hmacsha1->buildSignature($request, $client);
@@ -39,7 +39,7 @@ class HmacSha1Test extends PHPUnit_Framework_TestCase
 
         // Get mock objects
         $request = $this->getRequest();
-        $client = $this->getClient();
+        $client = $this->getConsumer();
         $token = $this->getToken();
 
         // Run method being tested
@@ -56,23 +56,23 @@ class HmacSha1Test extends PHPUnit_Framework_TestCase
 
     private function getRequest()
     {
-        return m::mock('JacobKiers\OAuth\Request', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Request\Request', function ($mock) {
             $mock->shouldReceive('getOAuthSignatureBaseString')
                 ->withNoArgs()
                 ->andReturn('POST&http%3A%2F%2Fexample.com%2Ffoobar&oauth_signature_method%3DHMAC-SHA1')->once();
         });
     }
 
-    private function getClient()
+    private function getConsumer()
     {
-        return m::mock('JacobKiers\OAuth\Client', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Consumer\Consumer', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('secret')->once();
         });
     }
 
     private function getToken()
     {
-        return m::mock('JacobKiers\OAuth\Token', function ($mock) {
+        return m::mock('JacobKiers\OAuth\Token\Token', function ($mock) {
             $mock->shouldReceive('getSecret')->withNoArgs()->andReturn('token_secret');
         });
     }

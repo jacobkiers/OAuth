@@ -9,15 +9,17 @@
  * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace JacobKiers\OAuth;
+namespace JacobKiers\OAuth\Consumer;
+
+use \JacobKiers\OAuth\Credential;
 
 /**
- * Client holds the properties of a single client / consumer.
+ * Consumer holds the properties of a single Consumer / consumer.
  *
  * @package OAuth
  * @author Gary Jones <gary@garyjones.co.uk>
  */
-class Client extends Credential
+class Consumer extends Credential implements ConsumerInterface
 {
     /**
      * URL to which authorized requests will redirect to.
@@ -27,10 +29,10 @@ class Client extends Credential
     protected $callback_url;
 
     /**
-     * Constructs a new client object and populates the required parameters.
+     * Constructs a new Consumer object and populates the required parameters.
      *
-     * @param string $key          Client key / identifier.
-     * @param string $secret       Client shared-secret.
+     * @param string $key          Consumer key / identifier.
+     * @param string $secret       Consumer shared-secret.
      * @param string $callback_url URL to which authorized request will redirect to.
      */
     public function __construct($key, $secret, $callback_url = null)

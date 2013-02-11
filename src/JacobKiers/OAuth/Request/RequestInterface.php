@@ -8,7 +8,7 @@
  * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace JacobKiers\OAuth;
+namespace JacobKiers\OAuth\Request;
 
 /**
  * Interface providing the necessary methods to handle an OAuth request.

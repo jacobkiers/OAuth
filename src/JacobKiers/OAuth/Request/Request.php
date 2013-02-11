@@ -9,7 +9,12 @@
  * @link https://github.com/jacobkiers/OAuth
  */
 
-namespace JacobKiers\OAuth;
+namespace JacobKiers\OAuth\Request;
+
+use \JacobKiers\OAuth\Util;
+use \JacobKiers\OAuth\OAuthException;
+use \JacobKiers\OAuth\Token\TokenInterface;
+use \JacobKiers\OAuth\Consumer\ConsumerInterface;
 
 /**
  * Handle an OAuth request.
@@ -79,7 +84,7 @@ class Request implements RequestInterface
      * @param string $http_url    Request URL.
      * @param array  $parameters  HTTP parameters.
      *
-     * @return JacobKiers\OAuth\RequestInterface
+     * @return JacobKiers\OAuth\Request\RequestInterface
      */
     public static function fromRequest($http_method = null, $http_url = null, $parameters = null)
     {
@@ -131,17 +136,17 @@ class Request implements RequestInterface
     /**
      * Helper function to set up the request.
      *
-     * @param JacobKiers\OAuth\Client $client
-     * @param JacobKiers\OAuth\Token  $token
-     * @param string                 $http_method
-     * @param string                 $http_url
-     * @param array                  $parameters
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface    $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface $token
+     * @param string                                $http_method
+     * @param string                                $http_url
+     * @param array                                 $parameters
      *
-     * @return JacobKiers\OAuth\RequestInterface
+     * @return JacobKiers\OAuth\Request\RequestInterface
      */
-    public static function fromClientAndToken(
-        Client $client,
-        Token $token,
+    public static function fromConsumerAndToken(
+        ConsumerInterface $consumer,
+        TokenInterface $token,
         $http_method,
         $http_url,
         array $parameters = null
@@ -151,7 +156,7 @@ class Request implements RequestInterface
             'oauth_version' => Request::$version,
             'oauth_nonce' => Request::generateNonce(),
             'oauth_timestamp' => Request::generateTimestamp(),
-            'oauth_consumer_key' => $client->getKey());
+            'oauth_consumer_key' => $consumer->getKey());
         if ($token) {
             $defaults['oauth_token'] = $token->getKey();
         }
@@ -374,29 +379,29 @@ class Request implements RequestInterface
     /**
      * Build signature and add it as parameter.
      *
-     * @param string                 $signature_method
-     * @param JacobKiers\OAuth\Client $client
-     * @param JacobKiers\OAuth\Token  $token
+     * @param string                                $signature_method
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface    $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface $token
      */
-    public function signRequest($signature_method, Client $client, Token $token)
+    public function signRequest($signature_method, ConsumerInterface $consumer, TokenInterface $token)
     {
         $this->setParameter('oauth_signature_method', $signature_method->getName(), false);
-        $signature = $this->buildSignature($signature_method, $client, $token);
+        $signature = $this->buildSignature($signature_method, $consumer, $token);
         $this->setParameter('oauth_signature', $signature, false);
     }
 
     /**
      * Build signature.
      *
-     * @param string                 $signature_method
-     * @param JacobKiers\OAuth\Client $client
-     * @param JacobKiers\OAuth\Token  $token
+     * @param string                                $signature_method
+     * @param JacobKiers\OAuth\Consumer\ConsumerInterface    $consumer
+     * @param JacobKiers\OAuth\Token\TokenInterface $token
      *
      * @return string
      */
-    public function buildSignature($signature_method, Client $client, Token $token)
+    public function buildSignature($signature_method, ConsumerInterface $consumer, TokenInterface $token)
     {
-        return $signature_method->buildSignature($this, $client, $token);
+        return $signature_method->buildSignature($this, $consumer, $token);
     }
 
     /**
