@@ -121,7 +121,7 @@ class Server
         // Rev A change
         $verifier = $request->getOAuthVerifier();
 
-        return $this->data_store->newAccessToken($token, $client, $verifier);
+        return $this->data_store->newAccessToken($client, $token, $verifier);
     }
 
     /**
@@ -231,9 +231,9 @@ class Server
      */
     private function getToken(RequestInterface $request, Client $client, $token_type = 'access')
     {
-        $token_field = $request instanceof RequestInterface ? $request->getOAuthToken() : null;
+        $token_key = $request instanceof RequestInterface ? $request->getOAuthToken() : null;
 
-        $token = $this->data_store->lookupToken($client, $token_type, $token_field);
+        $token = $this->data_store->lookupToken($client, $token_type, $token_key);
         if (!$token) {
             throw new OAuthException("Invalid $token_type token: $token_field");
         }

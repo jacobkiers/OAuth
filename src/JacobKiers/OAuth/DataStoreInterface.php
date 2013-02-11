@@ -33,20 +33,20 @@ interface DataStoreInterface
      * Validate a token.
      *
      * @param JacobKiers\OAuth\Client $client
-     * @param JacobKiers\OAuth\Token  $token
-     * @param string                 $token_type Request or access token
+     * @param string                  $token_type Request or access token
+     * @param string                  $token_key
      *
      * @return JacobKiers\OAuth\Token
      */
-    public function lookupToken(Client $client, Token $token, $token_type);
+    public function lookupToken(Client $client, $token_type, $token_key);
 
     /**
      * Validate that a nonce has not been used with the same timestamp before.
      *
      * @param JacobKiers\OAuth\Client $client
      * @param JacobKiers\OAuth\Token  $token
-     * @param string                 $nonce
-     * @param int                    $timestamp
+     * @param string                  $nonce
+     * @param int                     $timestamp
      *
      * @return boolean
      */
@@ -56,7 +56,7 @@ interface DataStoreInterface
      * Return a new token attached to this client.
      *
      * @param JacobKiers\OAuth\Client $client
-     * @param string                 $callback URI to store as the post-authorization callback.
+     * @param string                  $callback URI to send the post-authorisation callback to.
      *
      * @return JacobKiers\OAuth\Token
      */
@@ -70,7 +70,7 @@ interface DataStoreInterface
      *
      * @param JacobKiers\OAuth\Client $client
      * @param JacobKiers\OAuth\Token  $token
-     * @param string                 $verifier
+     * @param string                  $verifier
      *
      * @return JacobKiers\OAuth\Token
      */
