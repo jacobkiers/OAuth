@@ -145,7 +145,7 @@ class Server
         $consumer = $this->getConsumer($request);
         $token = $this->getToken($request, $consumer, 'access');
         $this->checkSignature($request, $consumer, $token);
-        return array($consumer, $token);
+        return array('consumer' => $consumer, 'token' => $token);
     }
 
     // Internals from here
