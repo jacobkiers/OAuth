@@ -157,7 +157,7 @@ class Request implements RequestInterface
             'oauth_nonce' => Request::generateNonce(),
             'oauth_timestamp' => Request::generateTimestamp(),
             'oauth_consumer_key' => $consumer->getKey());
-        if ($token) {
+        if ($token->getKey()) {
             $defaults['oauth_token'] = $token->getKey();
         }
 
