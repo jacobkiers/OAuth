@@ -1,0 +1,14 @@
+# Text files.
+*.ini   text
+*.json  text
+*.md    text
+*.php   text diff=php
+*.phtml text diff=html
+*.xml   text
+
+# Binary files.
+*.alaw  binary
+*.gif   binary
+*.phar  binary
+*.png   binary
+*.wav   binary
