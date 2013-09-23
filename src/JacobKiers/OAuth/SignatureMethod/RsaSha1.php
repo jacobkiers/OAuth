@@ -49,7 +49,7 @@ abstract class RsaSha1 extends SignatureMethod
      * Either way should return a string representation of the certificate
      *
      */
-    abstract protected function fetchPublicCert(&$request);
+    abstract protected function fetchPublicCert($request);
 
     /**
      * Up to the SP to implement this lookup of keys. Possible ideas are:
@@ -57,7 +57,7 @@ abstract class RsaSha1 extends SignatureMethod
      *
      * Either way should return a string representation of the certificate
      */
-    abstract protected function fetchPrivateCert(&$request);
+    abstract protected function fetchPrivateCert($request);
 
     /**
      * Build up the signature.

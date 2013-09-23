@@ -89,7 +89,7 @@ class Server
      *
      * @return JacobKiers\OAuth\Token\TokenInterface
      */
-    public function fetchRequestToken(RequestInterface &$request)
+    public function fetchRequestToken(RequestInterface $request)
     {
         $this->getVersion($request);
 
@@ -115,7 +115,7 @@ class Server
      *
      * @return JacobKiers\OAuth\Token\TokenInterface
      */
-    public function fetchAccessToken(RequestInterface &$request)
+    public function fetchAccessToken(RequestInterface $request)
     {
         $this->getVersion($request);
 
@@ -139,7 +139,7 @@ class Server
      *
      * @return array Consumer and Token
      */
-    public function verifyRequest(RequestInterface &$request)
+    public function verifyRequest(RequestInterface $request)
     {
         $this->getVersion($request);
         $consumer = $this->getConsumer($request);
@@ -159,7 +159,7 @@ class Server
      *
      * @throws JacobKiers\OAuth\OAuthException
      */
-    private function getVersion(RequestInterface &$request)
+    private function getVersion(RequestInterface $request)
     {
         $version = $request->getOAuthVersion();
         if (!$version) {
