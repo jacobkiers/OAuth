@@ -157,7 +157,6 @@ class Request implements RequestInterface
     ) {
         $parameters = ($parameters) ? $parameters : array();
         $defaults = array(
-            'oauth_version' => Request::$version,
             'oauth_nonce' => Request::generateNonce(),
             'oauth_timestamp' => Request::generateTimestamp(),
             'oauth_consumer_key' => $consumer->getKey());
