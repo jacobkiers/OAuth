@@ -243,7 +243,7 @@ class Server
 
         $token = $this->data_store->lookupToken($consumer, $token_type, $token_key);
         if (!$token) {
-            throw new OAuthException("Invalid $token_type token: $token_field");
+            throw new OAuthException("Invalid $token_type token: $token_key");
         }
         return $token;
     }
