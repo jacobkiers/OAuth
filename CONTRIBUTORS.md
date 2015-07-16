@@ -8,3 +8,4 @@ Andy Smith authored the original code (http://oauth.googlecode.com/svn/code/php/
  * Jacob Kiers (@jacobkiers)
  * Alexandru G. (@vimishor)
  * Victor Bjelkholm (@VictorBjelkholm)
+ * David Macek (@elieux)
