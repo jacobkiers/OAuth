@@ -1,9 +1,15 @@
+sudo: false
+
 language: php
 php:
+  - 5.3
   - 5.4
   - 5.5
+  - 5.6
+  - 7
+  - hhvm
 
 before_script:
  - composer selfupdate --quiet
- - composer install --dev
+ - composer install --prefer-dist
  - vendor/phpunit/phpunit/composer/bin/phpunit
