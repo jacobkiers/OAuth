@@ -93,10 +93,17 @@ class Request implements RequestInterface
     public static function fromRequest($http_method = null, $http_url = null, $parameters = null)
     {
         $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') ? 'http' : 'https';
+        $scheme = isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
+            ? $_SERVER['HTTP_X_FORWARDED_PROTO']
+            : $scheme;
+        $port = isset($_SERVER['HTTP_X_FORWARDED_PORT'])
+            ? $_SERVER['HTTP_X_FORWARDED_PORT']
+            : $_SERVER['SERVER_PORT'];
+
         $http_url = ($http_url) ? $http_url : $scheme .
             '://' . $_SERVER['HTTP_HOST'] .
             ':' .
-            $_SERVER['SERVER_PORT'] .
+            $port .
             $_SERVER['REQUEST_URI'];
         $http_method = ($http_method) ? $http_method : $_SERVER['REQUEST_METHOD'];
 
